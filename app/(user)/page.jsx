@@ -31,9 +31,9 @@ export default async function Home() {
         <button className="home-btn" formAction={postLongUrl}>Linki Kısalt</button>
       </form>
       {user ? 
-        registeredUrl.map((x, i) => <div  className="urls"><Link key={i} className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
+        registeredUrl.map((x, i) => <div key={i} className="urls"><Link className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
       : 
-        anonUrl.map((x, i) => <div  className="urls"><Link key={i} className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
+        anonUrl.map((x, i) => <div key={i} className="urls"><Link className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
       }
     </div>
   );
