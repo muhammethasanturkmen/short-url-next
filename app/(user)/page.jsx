@@ -8,19 +8,19 @@ export default async function Home() {
   const { data: { user } } = await supabase.auth.getUser();
 
   let registeredUrl = [];
-  if(user) {
+  if (user) {
     let { data: userUrl } = await supabase
-    .from('link')
-    .select('*')
-    .eq("user_id", user?.id)
+      .from('link')
+      .select('*')
+      .eq("user_id", user?.id)
 
     registeredUrl = userUrl;
   }
 
   let { data: anonUrl } = await supabase
-  .from('link')
-  .select('*')
-  .is('user_id', null);
+    .from('link')
+    .select('*')
+    .is('user_id', null);
 
   return (
     <div className="container">
@@ -30,11 +30,13 @@ export default async function Home() {
 
         <button className="home-btn" formAction={postLongUrl}>Linki Kısalt</button>
       </form>
-      {user ? 
-        registeredUrl.map((x, i) => <div key={i} className="urls"><Link className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
-      : 
-        anonUrl.map((x, i) => <div key={i} className="urls"><Link className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
-      }
+      <ul className="links">
+        {user ?
+          registeredUrl.map((x, i) => <li key={i}><Link href={`/${x.short_url}`}>{x.short_url}</Link></li>)
+          :
+          anonUrl.map((x, i) => <li key={i}><Link href={`/${x.short_url}`}>{x.short_url}</Link></li>)
+        }
+      </ul>
     </div>
   );
 }

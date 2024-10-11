@@ -128,26 +128,25 @@ h1 {
   background-color: #005bb5;
 }
 
-/* URL Listeleme */
-.urls {
-  margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+
+.links {
+  list-style-type: none;
+  padding: 0;
 }
 
+.links li {
+  margin: 10px 0;
+}
 
-.home-link {
-  color: #0070f3;
+.links li a {
   text-decoration: none;
-  font-weight: 500;
+  color: #0070f3;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-.home-link:hover {
-  text-decoration: underline;
+.links li a:hover {
+  color: #005bb5;
 }
 
 
