@@ -2,28 +2,39 @@ import { createClient } from "@/utils/supabase/server";
 import postLongUrl from "./actions";
 import Link from "next/link";
 
+
 export default async function Home() {
-
   const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  let { data: link } = await supabase
+  let registeredUrl = [];
+  if(user) {
+    let { data: userUrl } = await supabase
+    .from('link')
+    .select('*')
+    .eq("user_id", user?.id)
+
+    registeredUrl = userUrl;
+  }
+
+  let { data: anonUrl } = await supabase
   .from('link')
   .select('*')
-
+  .is('user_id', null);
 
   return (
     <div className="container">
-        <h1>link kısaltma sayfası</h1>
-        <form>
-            <input type="text" id="long_url" name="long_url" placeholder="kısaltmak istediğin URL"/>
+      <h1>Link Kısaltma Sayfası</h1>
+      <form className="home-form">
+        <input className="home-input" type="text" id="long_url" name="long_url" placeholder="kısaltmak istediğin URL" />
 
-            <button formAction={postLongUrl}>Linki Kısalt</button>
-        </form>
-        {link.map(x => 
-          <div className="url">
-            <Link href={`/${x.short_url}`}>{x.short_url}</Link>
-          </div>
-        )}
+        <button className="home-btn" formAction={postLongUrl}>Linki Kısalt</button>
+      </form>
+      {user ? 
+        registeredUrl.map(x => <div className="urls"><Link className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
+      : 
+        anonUrl.map(x => <div className="urls"><Link className="home-link" href={`/${x.short_url}`}>{x.short_url}</Link></div> )
+      }
     </div>
   );
 }
